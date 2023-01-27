@@ -131,6 +131,7 @@ const QRCodeScanner = () => {
         attendanceCollection,
         where("institute", "==", scannedData.institute),
         where("fatherNID", "==", scannedData.fatherNID),
+        where("rollNo",'==', scannedData.rollNo),
         where("date", "==", date)
       );
       const attendanceDocs = await getDocs(q);
