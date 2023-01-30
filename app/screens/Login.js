@@ -32,61 +32,61 @@ const validationSchema = Yup.object().shape({
   password: Yup.string().required().label("Password"),
 });
 
-const SchoolModal = ({
-  schoolModalVisible,
-  setSchoolModalVisible,
-  institutes,
-  setSelectedInstitute,
-}) => {
-  console.log("INstitute : ", institutes);
-  return (
-    <Modal
-      visible={schoolModalVisible}
-      onRequestClose={() => setSchoolModalVisible(false)}
-      animationType="slide"
-    >
-      <View style={{ flex: 1, padding: 20 }}>
-        <FlatList
-          ListHeaderComponent={() => {
-            return (
-              <AppText
-                style={{
-                  fontSize: 20,
-                  fontWeight: "800",
-                  borderBottomColor: "black",
-                  borderBottomWidth: 1,
-                }}
-              >
-                Select Your Child School
-              </AppText>
-            );
-          }}
-          data={institutes}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  setSchoolModalVisible(false);
-                  setSelectedInstitute(item.institute);
-                }}
-              >
-                <List.Item title={item.institute} />
-              </TouchableOpacity>
-            );
-          }}
-          ItemSeparatorComponent={Seperator}
-        />
-      </View>
-    </Modal>
-  );
-};
+// const SchoolModal = ({
+//   schoolModalVisible,
+//   setSchoolModalVisible,
+//   institutes,
+//   setSelectedInstitute,
+// }) => {
+//   console.log("INstitute : ", institutes);
+//   return (
+//     <Modal
+//       visible={schoolModalVisible}
+//       onRequestClose={() => setSchoolModalVisible(false)}
+//       animationType="slide"
+//     >
+//       <View style={{ flex: 1, padding: 20 }}>
+//         <FlatList
+//           ListHeaderComponent={() => {
+//             return (
+//               <AppText
+//                 style={{
+//                   fontSize: 20,
+//                   fontWeight: "800",
+//                   borderBottomColor: "black",
+//                   borderBottomWidth: 1,
+//                 }}
+//               >
+//                 Select Your Child School
+//               </AppText>
+//             );
+//           }}
+//           data={institutes}
+//           keyExtractor={(item) => item.id.toString()}
+//           renderItem={({ item }) => {
+//             return (
+//               <TouchableOpacity
+//                 onPress={() => {
+//                   setSchoolModalVisible(false);
+//                   setSelectedInstitute(item.institute);
+//                 }}
+//               >
+//                 <List.Item title={item.institute} />
+//               </TouchableOpacity>
+//             );
+//           }}
+//           ItemSeparatorComponent={Seperator}
+//         />
+//       </View>
+//     </Modal>
+//   );
+// };
 
 const Login = ({ route }) => {
   const { setUser } = useContext(AuthContext);
-  const [institutes, setInsitutes] = useState([]);
-  const [selectedInstitute, setSelectedInstitute] = useState("");
-  const [schoolModalVisible, setSchoolModalVisible] = useState(false);
+  // const [institutes, setInsitutes] = useState([]);
+  // const [selectedInstitute, setSelectedInstitute] = useState("");
+  // const [schoolModalVisible, setSchoolModalVisible] = useState(false);
 
   const { loginUser } = route.params;
   console.log("Login User : ", loginUser);
@@ -96,7 +96,7 @@ const Login = ({ route }) => {
     if (!selectedInstitute)
       return ToastAndroid.show("Please Select School", ToastAndroid.SHORT);
 
-    const user = await handleParentlogin(values, loginUser, selectedInstitute);
+    const user = await handleParentlogin(values, loginUser, "GPCW");
     console.log("User : ", user);
     if (!user) return;
     await storage.saveSession(user);
@@ -105,19 +105,19 @@ const Login = ({ route }) => {
     setUser(user);
   };
 
-  const getInstitutes = async () => {
-    const instituteCollection = collection(database, "institute");
-    const institutesSnapshot = await getDocs(instituteCollection);
-    const institutes = institutesSnapshot.docs.map((institute) => ({
-      id: institute.id,
-      ...institute.data(),
-    }));
+  // const getInstitutes = async () => {
+  //   const instituteCollection = collection(database, "institute");
+  //   const institutesSnapshot = await getDocs(instituteCollection);
+  //   const institutes = institutesSnapshot.docs.map((institute) => ({
+  //     id: institute.id,
+  //     ...institute.data(),
+  //   }));
 
-    setInsitutes(institutes);
-  };
+  //   setInsitutes(institutes);
+  // };
 
   useEffect(() => {
-    getInstitutes();
+    // getInstitutes();
   }, []);
 
   return (
@@ -156,7 +156,7 @@ const Login = ({ route }) => {
               secureTextEntry
             />
 
-            <TouchableOpacity onPress={() => setSchoolModalVisible(true)}>
+            {/* <TouchableOpacity onPress={() => setSchoolModalVisible(true)}>
               <View
                 style={{
                   backgroundColor: colors.mediumLightBlack,
@@ -180,16 +180,16 @@ const Login = ({ route }) => {
                   </AppText>
                 )}
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <SubmitButton title="LOGIN" />
           </Form>
         </KeyboardAvoidingView>
-        <SchoolModal
+        {/* <SchoolModal
           schoolModalVisible={schoolModalVisible}
           setSchoolModalVisible={setSchoolModalVisible}
           institutes={institutes}
           setSelectedInstitute={setSelectedInstitute}
-        />
+        /> */}
       </ScrollView>
     </Screen>
   );
